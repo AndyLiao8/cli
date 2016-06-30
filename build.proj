@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="BuildTheWholeCli" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="build/Microsoft.DotNet.Cli.Test.targets" /> 
+
   <PropertyGroup>
     <!--
       $(OS) is set to Unix/Windows_NT. This comes from an environment variable on Windows and MSBuild on Unix.
@@ -48,6 +50,7 @@
   <Target DependsOnTargets="$(CLITargets)" Name="BuildTheWholeCli"></Target>
 
   <UsingTask TaskName="CompileTargets" AssemblyFile="$(CLIBuildDll)" />
+  <UsingTask TaskName="PackageTargets" AssemblyFile="$(CLIBuildDll)" />
   <UsingTask TaskName="TestTargets" AssemblyFile="$(CLIBuildDll)" />
   <UsingTask TaskName="PublishTargets" AssemblyFile="$(CLIBuildDll)" />
 
@@ -57,6 +60,10 @@
 
   <Target DependsOnTargets="BuildDotnetCliBuildFramework" Name="Test">
     <TestTargets />
+  </Target>
+
+  <Target DependsOnTargets="BuildDotnetCliBuildFramework" Name="Package">
+    <PackageTargets />
   </Target>
 
   <Target DependsOnTargets="BuildDotnetCliBuildFramework" Name="Publish">
